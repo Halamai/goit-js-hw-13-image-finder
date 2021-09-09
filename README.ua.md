@@ -2,101 +2,170 @@
 
 # Критерії прийому
 
-- Створено репозиторій `goit-js-hw-10-food-service`.
-- При здачі домашньої роботи є два посилання: на вихідні файли і робочу сторінку
-  на GitHub pages.
+- Створено репозиторії `goit-js-hw-13-image-finder`.
+- При здачі домашньої роботи є два посилання для кожного проєкту: на вихідні
+    файли і робочу сторінку на GitHub pages.
 - При відвідуванні робочої сторінки (GitHub pages) завдання, в консолі немає
-  помилок і попереджень.
-- Імена змінних та функцій зрозумілі, описові.
-- Проєкт зібраний з допомогою `Parcel`.
-- Код відформатований за допомогою `Prettier`.
-
-# Завдання
-
-Створи сторінку меню з можливістю вибору теми для сервісу замовлення їжі.
-[Посилання на демо відео](https://take.ms/RxIlv).
-
-![Прев'ю](preview.jpg)
-
-- Обов'язково використовуй
+  помилок і попереджень
+- Імена змінних і функцій зрозумілі, описові
+- Проєкт зібраний за допомогою
   [parcel-project-template](https://github.com/goitacademy/parcel-project-template)
-  для збирання та деплоя проекта.
-- В папці [src](./src) ти знайдеш стартову розмітку, стилі і дані
-- Масив об'єктів страв лежить в [menu.json](./src/menu.json)
+- Код відформатований за допомогою `Prettier`
+- Додай мінімальну стилізацію
+- Є файл `apiService.js` з дефолтним експортом об'єкта відповідає за логіку
+  HTTP-запитів до API
 
-## Тема
+## Завдання - пошук зображень
 
-Реалізуй функціонал зміни теми при натисканні (подія `change`) на чекбокс
-`input.js-switch-input` в тулбарі.
+Напиши невеликий додаток пошуку і перегляду зображень за ключовим словом
 
-- За замовчуванням тема світла.
-- При зміні теми, необхідно додавати на елемент `body` клас `light-theme` або
-  `dark-theme`.
-- Обрана тема повинна зберігатися між перезавантаженнями сторінки. Для
-  зберігання   активної теми використовуй localStorage.
-- Якщо при завантаженні сторінки тема темна, не забудь поставити властивість
-  `checked` у чекбокса `input.js-switch-input` в `true`, щоб повзунок зрушився в
-     правильне положення.
+## Інструкції Pixabay API
 
-Для зручності зберігання списку тем використовуй таке перерахування `Theme`.
+Для HTTP-запитів використовуй публічний
+[Pixabay API](https://pixabay.com/api/docs/). Зареєструйся та отримай ключ.
 
-```js
-const Theme = {
-  LIGHT: 'light-theme',
-  DARK: 'dark-theme',
-};
+URL-рядок запиту:
+
+```bash
+https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=что_искать&page=номер_страницы&per_page=12&key=твой_ключ
 ```
 
-## Шаблонізація
+Pixabay API підтримує пагінацію, нехай у відповіді приходить по 12 об'єктів,
+встановлено в параметрі `per_page`. За замовчуванням `page` дорівнює `1`. При
+кожному наступному запиті `page` збільшується на 1, а при пошуку по новому
+ключовим словом необхідно скидати його значення в `1`.
 
-Використовуючи шаблонізатор [Handlebars](https://handlebarsjs.com/) створи
-шаблон одного елемента меню. Після чого, використовуючи шаблон, створи розмітку
-всього меню за даними з [menu.json](./src/menu.json) і додай в DOM в
-`ul.js-menu`.
+Кожне зображення описується об'єктом.
 
-Для іконок використовуємо `Material Icons`, лінк на веб-фонт вже є в вихідному
-HTML.
+```json
+{
+  "comments": 78,
+  "downloads": 63296,
+  "favorites": 558,
+  "id": 1508613,
+  "imageHeight": 2135,
+  "imageSize": 1630104,
+  "imageWidth": 2894,
+  "largeImageURL": "https://pixabay.com/get/57e5d54b4c53af14f6da8c7dda793376173cd8e7524c704c702873dc9f44c551_1280.jpg",
+  "likes": 575,
+  "pageURL": "https://pixabay.com/photos/cat-animal-cat-portrait-cat-s-eyes-1508613/",
+  "previewHeight": 110,
+  "previewURL": "https://cdn.pixabay.com/photo/2016/07/10/21/47/cat-1508613_150.jpg",
+  "previewWidth": 150,
+  "tags": "cat, animal, cat portrait",
+  "type": "photo",
+  "user": "cocoparisienne",
+  "userImageURL": "https://cdn.pixabay.com/user/2018/11/26/11-06-29-714_250x250.jpg",
+  "user_id": 127419,
+  "views": 127450,
+  "webformatHeight": 472,
+  "webformatURL": "https://pixabay.com/get/57e5d54b4c53af14f6da8c7dda793376173cd8e7524c704c702873dc9f44c551_640.jpg",
+  "webformatWidth": 640
+}
+```
 
-Нижче вказана розмітка елемента меню яка повинна виходити за шаблоном (дані
-будуть різні для кожного об'єкта).
+Тобі цікаві такі властивості:
+
+- `webformatURL` - посилання на маленьке зображення для списку карток
+- `largeImageURL` - посилання на велике зображення (дивись пункт 'додатково')
+- `likes` - кількість лайків
+- `views` - кількість переглядів
+- `comments` - кількість коментарів
+- `downloads` - кількість завантажень
+
+## Форма пошуку
+
+Створює DOM-елемент такої структури. Можна використовувати шаблонізацію.
 
 ```html
-<li class="menu__item">
-  <div class="card">
-    <img
-      src="https://s1.eda.ru/StaticContent/Photos/140812180013/140820212258/p_O.jpg"
-      alt="Картопля, запечена в мундирі"
-      class="card__image"
-    />
-    <div class="card__content">
-      <h2 class="card__name">Картопля, запечена в мундирі</h2>
-      <p class="card__price">
-        <i class="material-icons"> monetization_on </i>
-        100 кредитів
-      </p>
+<form class="search-form" id="search-form">
+  <input
+    type="text"
+    name="query"
+    autocomplete="off"
+    placeholder="Search images..."
+  />
+</form>
+```
 
-      <p class="card__descr">
-        Ароматна, ситна, шипляча домашня картопля, фарширована сметанно-беконною
-        начинкою, - це дуже простий і дуже ефектний спосіб нагодувати велику
-        кількість людей, практично не витративши на підготовку ні сил, ні часу.
-        Звичайну картоплю при бажанні тут можна замінити на солодкий батат, а в
-        начинку додати, наприклад, кукурудзу або солодкий червоний перець.
-      </p>
+## Галерея зображень
 
-      <ul class="tag-list">
-        <li class="tag-list__item">Картопля</li>
-        <li class="tag-list__item">Часник</li>
-        <li class="tag-list__item">Сметана</li>
-        <li class="tag-list__item">Бекон</li>
-        <li class="tag-list__item">Твердий сир</li>
-        <li class="tag-list__item">Зелена цибуля</li>
-      </ul>
-    </div>
+Створює DOM-елемент такої структури.
 
-    <button class="card__button button">
-      <i class="material-icons button__icon"> shopping_cart </i>
-      В корзину
-    </button>
+```html
+<ul class="gallery">
+  <!-- Список <li> з картками зображень -->
+</ul>
+```
+
+## Картка зображення
+
+Створює DOM-елемент такої структури.
+
+```html
+<div class="photo-card">
+  <img src="" alt="" />
+
+  <div class="stats">
+    <p class="stats-item">
+      <i class="material-icons">thumb_up</i>
+      1108
+    </p>
+    <p class="stats-item">
+      <i class="material-icons">visibility</i>
+      320321
+    </p>
+    <p class="stats-item">
+      <i class="material-icons">comment</i>
+      129
+    </p>
+    <p class="stats-item">
+      <i class="material-icons">cloud_download</i>
+      176019
+    </p>
   </div>
-</li>
+</div>
+```
+
+Для іконок використовуються
+[Material icons](https://google.github.io/material-design-icons/). Для їх
+коректної роботи досить в HTML-файлі додати посилання на веб-шрифт.
+
+```html
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet"
+/>
+```
+
+Або додавши npm-пакет `material-design-icons` і імпортувавши веб-шрифт в
+`index.js`.
+
+## Кнопка 'Load more'
+
+При натисканні на кнопку `Load more` повинна довантажуватися наступна порція
+зображень і рендеритися разом з попередніми.
+
+Сторінка повинна автоматично плавно проскролюватися після рендера зображень, щоб
+перевести користувача на наступі завантажені зображення. Використовуй
+[Element.scrollIntoView()](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView).
+
+```js
+const element = document.getElementById('.my-element-selector');
+element.scrollIntoView({
+  behavior: 'smooth',
+  block: 'end',
+});
+
+## Додатково
+
+- Можна додати плагін нотифікацій, наприклад
+  [pnotify](https://github.com/sciactive/pnotify), і показувати нотифікації на
+    результат HTTP-запитів
+- Можна додати функціонал відображення великої версії зображення через плагін
+    модального вікна, наприклад
+  [basicLightbox](https://basiclightbox.electerious.com/), при кліці на
+    зображення галереї
+- Замість кнопки `Load more` можна зробити нескінченне завантаження при скролі
+    використовуючи `Intersection Observer`.
 ```

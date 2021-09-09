@@ -1,44 +1,39 @@
-import './styles.css';
-import data from './menu.json';
-import creatMenu from './template/menu.hbs';
+import './css/style.css';
+import refs from './js/getRefs.js';
+import makeImgMarkUppInfo from './templates/gallery-items.hbs';
+import ApiService from './js/api-service';
 
-const refs = {
-  menu: document.querySelector('.js-menu'),
-  changeThema: document.querySelector('#theme-switch-toggle'),
-  body: document.querySelector('body'),
+const api = new ApiService();
+console.log(api);
+
+const renderImg = ({ hits }) => {
+  const mohreimages = makeImgMarkUppInfo(hits);
+  refs.galerryList.insertAdjacentHTML('beforeEnd', mohreimages);
 };
 
-const marcup = creatMenu(data);
-refs.menu.innerHTML = marcup;
-
-const thema = {
-  LIGHT: 'light-theme',
-  DARK: 'dark-theme',
+const onImageShow = e => {
+  e.preventDefault();
+  const input = refs.input.value;
+  console.log(input);
+  api.query(input);
+  api.fetchPicture(input).then(data => {
+    renderImg(data);
+    refs.loadMoreImg.classList.remove('is-hiden');
+  });
 };
-// console.log(refs.changeThema);
-refs.changeThema.addEventListener('change', toggleThema);
-function toggleThema(e) {
-  if (e.target.checked) {
-    uppdateClassBody(thema.DARK);
-    uppDate(thema.DARK);
-  } else {
-    uppdateClassBody(thema.LIGHT);
-    uppDate(thema.LIGHT);
-  }
-  //   console.log(e.target.checked);
-}
-function uppDate(value) {
-  localStorage.setItem('thema', value);
-}
-function start() {
-  const date = localStorage.getItem('thema') || thema.LIGHT;
-  uppdateClassBody(date);
-  refs.changeThema.checked = date === thema.DARK;
-  //   console.log(date);
-  //
-}
 
-function uppdateClassBody(classEl) {
-  refs.body.className = classEl;
-}
-start();
+const onMohreImageShow = () => {
+  api.incrementPage();
+  api.fetchPicture().then(data => {
+    renderImg(data);
+  });
+};
+
+refs.imageShow.addEventListener('submit', onImageShow);
+refs.loadMoreImg.addEventListener('click', onMohreImageShow);
+
+// const element = document.getElementById('.gallery');
+// element.scrollIntoView({
+//   behavior: 'smooth',
+//   block: 'end',
+// });

@@ -1,0 +1,11 @@
+#gallery-list {
+  /* display: flex; */
+  margin: 25px;
+}
+.photo-card {
+  margin: 20px;
+}
+.is-hiden {
+  display: none;
+  opacity: 0;
+}
