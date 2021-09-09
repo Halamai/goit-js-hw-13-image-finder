@@ -37,4 +37,3 @@ refs.loadMoreImg.addEventListener('click', onMohreImageShow);
 //   behavior: 'smooth',
 //   block: 'end',
 // });
-// console.log();
