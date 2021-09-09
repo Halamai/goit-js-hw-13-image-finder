@@ -16,14 +16,19 @@ export default class ApiService {
       page: this.page,
       per_page: this.per_page,
     });
-    return fetch(`${this.BASE_URL}?${queryParams}`).then(response => {
-      return response.json();
-    });
+    return fetch(`${this.BASE_URL}?${queryParams}`)
+      .then(response => {
+        return response.json();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
   incrementPage() {
     this.page += 1;
+    // this.per_page += 12;
   }
-  query(input) {
+  set query(input) {
     this._query = input;
   }
   get query() {

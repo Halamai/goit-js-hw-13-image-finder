@@ -1,5 +1,11 @@
+body {
+  text-align: center;
+  background: rgb(165, 183, 218);
+}
+
 #gallery-list {
-  /* display: flex; */
+  display: flex;
+  flex-wrap: wrap;
   margin: 25px;
 }
 .photo-card {
@@ -8,4 +14,35 @@
 .is-hiden {
   display: none;
   opacity: 0;
+}
+#qwery {
+  height: 5ch;
+  border-radius: 5px;
+}
+.btn {
+  margin: 25px;
+  width: 30ch;
+  height: 5ch;
+  background-color: cornflowerblue;
+  border-radius: 5px;
+}
+.btn:hover {
+  background-color: rgb(54, 87, 148);
+}
+#button-input {
+  width: 15ch;
+}
+.stats-item {
+  display: flex;
+  justify-content: center;
+  margin-right: 25px;
+}
+
+.stats {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.material-icons {
+  margin-right: 5px;
 }
