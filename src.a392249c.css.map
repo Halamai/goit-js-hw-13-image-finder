@@ -1,1 +1,0 @@
-{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,cAEE,WACF,CACA,YACE,WACF,CACA,UACE,YAAa,CACb,SACF","file":"src.a392249c.css","sourceRoot":"../src","sourcesContent":["#gallery-list {\n  /* display: flex; */\n  margin: 25px;\n}\n.photo-card {\n  margin: 20px;\n}\n.is-hiden {\n  display: none;\n  opacity: 0;\n}\n"]}
