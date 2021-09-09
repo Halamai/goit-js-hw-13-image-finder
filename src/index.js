@@ -4,11 +4,10 @@ import makeImgMarkUppInfo from './templates/gallery-items.hbs';
 import ApiService from './js/api-service';
 
 const api = new ApiService();
-console.log(api);
 
 const renderImg = ({ hits }) => {
   const mohreimages = makeImgMarkUppInfo(hits);
-  refs.galerryList.innerHTML = mohreimages;
+  refs.galerryList.insertAdjacentHTML('beforeend', mohreimages);
   nextpages();
 };
 
@@ -16,11 +15,12 @@ const onImageShow = e => {
   e.preventDefault();
   const input = refs.input.value;
   api.query = input;
-
+  api.testPage();
   api.fetchPicture(input).then(data => {
     renderImg(data);
     refs.loadMoreImg.classList.remove('is-hiden');
   });
+  refs.galerryList.innerHTML = '';
 };
 
 const onMohreImageShow = () => {

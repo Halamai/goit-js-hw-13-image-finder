@@ -26,7 +26,9 @@ export default class ApiService {
   }
   incrementPage() {
     this.page += 1;
-    // this.per_page += 12;
+  }
+  testPage() {
+    this.page = 1;
   }
   set query(input) {
     this._query = input;
